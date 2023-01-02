@@ -29,7 +29,7 @@
     "twitter stream"
   ],
   "dependencies": {
-    "cross-fetch": "^3.0.0",
+    "cross-fetch": "^3.1.5",
     "oauth-1.0a": "^2.2.4"
   },
   "devDependencies": {
@@ -43,7 +43,7 @@
     "jest": "^25.5.0",
     "microbundle": "^0.15.0",
     "size-limit": "^8.1.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.9.4"
   },
   "scripts": {
     "lint": "eslint . && tsc index.d.ts",
