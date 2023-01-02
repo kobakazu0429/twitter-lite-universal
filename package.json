@@ -1,6 +1,6 @@
 {
   "name": "twitter-lite-universal",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A tiny, full-featured, universal, flexible client / server library for the Twitter API",
   "source": "twitter.js",
   "main": "dist/twitter.js",
@@ -8,7 +8,9 @@
   "types": "index.d.ts",
   "files": [
     "dist",
-    "index.d.ts"
+    "index.d.ts",
+    "twitter.js",
+    "stream.js"
   ],
   "repository": "kobakazu0429/twitter-lite-universal",
   "homepage": "https://github.com/kobakazu0429/twitter-lite-universal",
@@ -51,7 +53,7 @@
     "build": "microbundle {stream,twitter}.js",
     "size": "size-limit",
     "test": "jest --detectOpenHandles && yarn size",
-    "release": "npm run -s build && npm run lint && npm test && git tag $npm_package_version && git push && git push --tags && npm publish",
+    "release": "git tag $npm_package_version && git push && git push --tags ",
     "prepare": "husky install"
   },
   "jest": {
