@@ -1,7 +1,7 @@
 {
-  "name": "twitter-lite",
-  "version": "1.1.0",
-  "description": "Tiny, full-featured client/server REST/stream library for the Twitter API",
+  "name": "twitter-lite-universal",
+  "version": "1.1.1",
+  "description": "A tiny, full-featured, universal, flexible client / server library for the Twitter API",
   "source": "twitter.js",
   "main": "dist/twitter.js",
   "module": "dist/twitter.m.js",
@@ -10,11 +10,12 @@
     "dist",
     "index.d.ts"
   ],
-  "repository": "draftbit/twitter-lite",
+  "repository": "kobakazu0429/twitter-lite-universal",
   "homepage": "https://github.com/draftbit/twitter-lite",
   "author": "Peter Piekarczyk <peter@peterp.me>",
   "contributors": [
-    "Dan Dascalescu (https://github.com/dandv)"
+    "Dan Dascalescu (https://github.com/dandv)",
+    "kobakazu0429 (https://github.com/kobakazu0429)"
   ],
   "license": "MIT",
   "keywords": [
