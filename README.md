@@ -1,6 +1,8 @@
-# Twitter Lite
+# Twitter Lite Universal
 
-A tiny, full-featured, modern client / server library for the [Twitter API](https://developer.twitter.com/en/docs/basics/things-every-developer-should-know).
+**WIP Project**
+
+A tiny, full-featured, universal, flexible client / server library for the [Twitter API](https://developer.twitter.com/en/docs/basics/things-every-developer-should-know).
 
 [![npm](https://img.shields.io/npm/v/twitter-lite.svg)](https://npm.im/twitter-lite) [![travis](https://travis-ci.org/draftbit/twitter-lite.svg?branch=master)](https://travis-ci.org/draftbit/twitter-lite)
 
@@ -9,9 +11,9 @@ A tiny, full-featured, modern client / server library for the [Twitter API](http
 - Promise driven via Async / Await
 - REST and Stream support
 - [Typescript support](https://github.com/draftbit/twitter-lite/blob/master/index.d.ts)
-- Works in Node.js
+- Works in Node.js / Browser / Cloudflare Workers
 - Rate limiting support
-- Under 1kb
+- Under 3kb
 - Minimal dependencies
 - Test suite
 
@@ -86,12 +88,12 @@ const client = new Twitter({
   consumer_key: "abc", // from Twitter.
   consumer_secret: "def", // from Twitter.
   access_token_key: "uvw", // from your User (oauth_token)
-  access_token_secret: "xyz" // from your User (oauth_token_secret)
+  access_token_secret: "xyz", // from your User (oauth_token_secret)
 });
 
 client
   .get("account/verify_credentials")
-  .then(results => {
+  .then((results) => {
     console.log("results", results);
   })
   .catch(console.error);
@@ -102,12 +104,12 @@ client
 ```es6
 const user = new Twitter({
   consumer_key: "abc",
-  consumer_secret: "def"
+  consumer_secret: "def",
 });
 
 const response = await user.getBearerToken();
 const app = new Twitter({
-  bearer_token: response.access_token
+  bearer_token: response.access_token,
 });
 ```
 
@@ -121,15 +123,15 @@ According to the [docs](https://developer.twitter.com/en/docs/basics/authenticat
 ```es6
 const client = new Twitter({
   consumer_key: "xyz",
-  consumer_secret: "xyz"
+  consumer_secret: "xyz",
 });
 
 client
   .getRequestToken("http://callbackurl.com")
-  .then(res =>
+  .then((res) =>
     console.log({
       reqTkn: res.oauth_token,
-      reqTknSecret: res.oauth_token_secret
+      reqTknSecret: res.oauth_token_secret,
     })
   )
   .catch(console.error);
@@ -140,20 +142,20 @@ Then you redirect your user to `https://api.twitter.com/oauth/authenticate?oauth
 ```es6
 const client = new Twitter({
   consumer_key: "xyz",
-  consumer_secret: "xyz"
+  consumer_secret: "xyz",
 });
 
 client
   .getAccessToken({
     oauth_verifier: oauthVerifier,
-    oauth_token: oauthToken
+    oauth_token: oauthToken,
   })
-  .then(res =>
+  .then((res) =>
     console.log({
       accTkn: res.oauth_token,
       accTknSecret: res.oauth_token_secret,
       userId: res.user_id,
-      screenName: res.screen_name
+      screenName: res.screen_name,
     })
   )
   .catch(console.error);
@@ -170,7 +172,7 @@ const client = new Twitter({
   consumer_key: "xyz",
   consumer_secret: "xyz",
   access_token_key: "xyz",
-  access_token_secret: "xyz"
+  access_token_secret: "xyz",
 });
 
 async function tweetThread(thread) {
@@ -179,7 +181,7 @@ async function tweetThread(thread) {
     const tweet = await client.post("statuses/update", {
       status: status,
       in_reply_to_status_id: lastTweetID,
-      auto_populate_reply_metadata: true
+      auto_populate_reply_metadata: true,
     });
     lastTweetID = tweet.id_str;
   }
@@ -238,7 +240,7 @@ const client = new Twitter({
   consumer_key: "abc", // from Twitter.
   consumer_secret: "def", // from Twitter.
   access_token_key: "uvw", // from your User (oauth_token)
-  access_token_secret: "xyz" // from your User (oauth_token_secret)
+  access_token_secret: "xyz", // from your User (oauth_token_secret)
 });
 ```
 
@@ -253,11 +255,11 @@ const client = new Twitter({
   consumer_key: "xyz",
   consumer_secret: "xyz",
   access_token_key: "abc",
-  access_token_secret: "abc"
+  access_token_secret: "abc",
 });
 
 const rateLimits = await client.get("statuses/show", {
-  id: "1016078154497048576"
+  id: "1016078154497048576",
 });
 ```
 
@@ -272,11 +274,11 @@ const client = new Twitter({
   consumer_key: "xyz",
   consumer_secret: "xyz",
   access_token_key: "abc",
-  access_token_secret: "abc"
+  access_token_secret: "abc",
 });
 
 await client.post("friendships/create", {
-  screen_name: "dandv"
+  screen_name: "dandv",
 });
 ```
 
@@ -284,7 +286,7 @@ The second use case for POST is when you need to pass more parameters than suita
 
 ```es6
 const users = await client.post("users/lookup", {
-  screen_name: "longScreenName1,longerScreeName2,...,veryLongScreenName100"
+  screen_name: "longScreenName1,longerScreeName2,...,veryLongScreenName100",
 });
 ```
 
@@ -299,7 +301,7 @@ const client = new Twitter({
   consumer_key: "xyz",
   consumer_secret: "xyz",
   access_token_key: "abc",
-  access_token_secret: "abc"
+  access_token_secret: "abc",
 });
 
 const welcomeMessageID = "abc";
@@ -307,12 +309,12 @@ const welcomeMessageID = "abc";
 await client.put(
   "direct_messages/welcome_messages/update",
   {
-    id: welcomeMessageID
+    id: welcomeMessageID,
   },
   {
     message_data: {
-      text: "Welcome!!!"
-    }
+      text: "Welcome!!!",
+    },
   }
 );
 ```
@@ -339,8 +341,12 @@ You can find many more examples for various resources/endpoints in [the tests](t
 
 ```es6
 const tweets = await client.get("statuses/home_timeline");
-console.log(`Rate: ${tweets._headers.get('x-rate-limit-remaining')} / ${tweets._headers.get('x-rate-limit-limit')}`);
-const delta = (tweets._headers.get('x-rate-limit-reset') * 1000) - Date.now()
+console.log(
+  `Rate: ${tweets._headers.get(
+    "x-rate-limit-remaining"
+  )} / ${tweets._headers.get("x-rate-limit-limit")}`
+);
+const delta = tweets._headers.get("x-rate-limit-reset") * 1000 - Date.now();
 console.log(`Reset: ${Math.ceil(delta / 1000 / 60)} minutes`);
 ```
 
