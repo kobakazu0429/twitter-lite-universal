@@ -1,7 +1,6 @@
 const HmacSha1 = require('crypto-js/hmac-sha1');
 const Base64 = require('crypto-js/enc-base64');
 const OAuth = require('oauth-1.0a');
-const Fetch = require('cross-fetch');
 const querystring = require('querystring');
 const Stream = require('./stream');
 
@@ -138,7 +137,7 @@ class Twitter {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
     };
 
-    const results = await Fetch('https://api.twitter.com/oauth2/token', {
+    const results = await fetch('https://api.twitter.com/oauth2/token', {
       method: 'POST',
       body: 'grant_type=client_credentials',
       headers,
@@ -161,7 +160,7 @@ class Twitter {
       this.client.authorize(requestData, {}),
     );
 
-    const results = await Fetch(requestData.url, {
+    const results = await fetch(requestData.url, {
       method: 'POST',
       headers: Object.assign({}, baseHeaders, headers),
     })
@@ -181,7 +180,7 @@ class Twitter {
 
     const headers = this.client.toHeader( this.client.authorize(requestData) );
 
-    const results = await Fetch(requestData.url, {
+    const results = await fetch(requestData.url, {
       method: 'POST',
       headers: Object.assign({}, baseHeaders, headers),
     })
@@ -237,7 +236,7 @@ class Twitter {
       parameters,
     );
 
-    return Fetch(requestData.url, { headers })
+    return fetch(requestData.url, { headers })
       .then(Twitter._handleResponse);
   }
 
@@ -264,7 +263,7 @@ class Twitter {
       postHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
     }
 
-    return Fetch(requestData.url, {
+    return fetch(requestData.url, {
       method: 'POST',
       headers: postHeaders,
       body,
@@ -289,7 +288,7 @@ class Twitter {
     const putHeaders = Object.assign({}, baseHeaders, headers);
     body = JSON.stringify(body);
 
-    return Fetch(requestData.url, {
+    return fetch(requestData.url, {
       method: 'PUT',
       headers: putHeaders,
       body,
@@ -321,7 +320,7 @@ class Twitter {
       this.client.authorize(requestData, this.token),
     );
 
-    const request = Fetch(requestData.url, {
+    const request = fetch(requestData.url, {
       method: 'POST',
       headers: {
         ...headers,
